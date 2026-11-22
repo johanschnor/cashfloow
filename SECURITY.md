@@ -1,6 +1,6 @@
 # Sikkerhed
 
-Regnskab MCP kører lokalt og læser regnskabsdata med de e-conomic-tokens, du selv giver den. Den gemmer intet på disk, skriver aldrig til e-conomic og sender kun data til den MCP-klient, der har startet den.
+Cashfloow kører lokalt og læser regnskabsdata med de e-conomic-tokens, du selv giver den. Den gemmer intet på disk, skriver aldrig til e-conomic og sender kun data til den MCP-klient, der har startet den.
 
 **Meld et sikkerhedshul:** Brug GitHubs "Report a vulnerability" under fanen Security i repoet. Opret ikke et offentligt issue for sikkerhedshuller.
 

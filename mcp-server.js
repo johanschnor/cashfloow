@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Regnskab MCP: gives Claude finished analyses of a company's cash flow, sales and stock
+// Cashfloow: gives Claude finished analyses of a company's cash flow, sales and stock
 // from e-conomic, instead of raw accounting data. Runs locally over stdio; see README.md.
 //
 // Data source per call: "eksempel" (made-up company) or "e-conomic" (your own tokens from .env or

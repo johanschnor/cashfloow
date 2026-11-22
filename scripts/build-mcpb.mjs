@@ -1,4 +1,4 @@
-// Builds dist/regnskab-mcp-<version>.mcpb, a one-file Claude Desktop extension.
+// Builds dist/cashfloow-<version>.mcpb, a one-file Claude Desktop extension.
 // Stages the runtime files with production dependencies only, fills in the version and the tool list
 // from the running server (so the manifest never drifts from the code), then validates and packs.
 //   npm run build:mcpb
@@ -35,7 +35,7 @@ manifest.version = pkg.version;
 manifest.tools = tools.map((t) => ({ name: t.name, description: t.description }));
 fs.writeFileSync(path.join(stage, "manifest.json"), JSON.stringify(manifest, null, 2) + "\n");
 
-const out = path.join(dist, `regnskab-mcp-${pkg.version}.mcpb`);
+const out = path.join(dist, `cashfloow-${pkg.version}.mcpb`);
 execFileSync(mcpb, ["validate", path.join(stage, "manifest.json")], { stdio: "inherit" });
 execFileSync(mcpb, ["pack", stage, out], { stdio: "inherit" });
 console.log(`\n${tools.length} værktøjer, ${out}`);

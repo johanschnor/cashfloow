@@ -1,11 +1,11 @@
 {
   "manifest_version": "0.3",
-  "name": "regnskab-mcp",
-  "display_name": "Regnskab MCP",
+  "name": "cashfloow",
+  "display_name": "Cashfloow",
   "version": "1.0.0",
   "description": "Færdige analyser af likviditet, debitorer, salg og lager ud fra e-conomic. Gratis, lokal og kun læsning.",
   "long_description": "Giver Claude færdige analyser af en virksomheds regnskab i e-conomic i stedet for rå data: likviditetsprognose for 13 uger med Monte Carlo-risiko, hvilke kunder der binder penge og bliver langsommere til at betale, salgsprognoser med testede fejlmål, mulige dobbeltfakturaer og usædvanlige beløb, og hvad der skal bestilles hjem med kalibreret sikkerhedslager.\n\nKører lokalt på din computer med dine egne e-conomic-nøgler og skriver aldrig til e-conomic. Uden nøgler virker alt på en opdigtet eksempelvirksomhed og på e-conomics offentlige demokonto. Ikke tilknyttet e-conomic eller Visma.",
-  "author": { "name": "Regnskab MCP contributors" },
+  "author": { "name": "Cashfloow contributors" },
   "license": "MIT",
   "keywords": ["e-conomic", "regnskab", "likviditet", "debitorer", "lagerstyring", "prognose", "danmark"],
   "server": {

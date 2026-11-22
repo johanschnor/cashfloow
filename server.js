@@ -48,7 +48,7 @@ const server = http.createServer(async (req, res) => {
 });
 
 server.listen(PORT, "127.0.0.1", () => {
-  console.log(`Regnskab MCP kører på http://localhost:${PORT}`);
+  console.log(`Cashfloow kører på http://localhost:${PORT}`);
   console.log(`e-conomic: ${tokens.appSecretToken === "demo" ? "demokonto (ingen .env fundet)" : "egne tokens fra .env"}`);
 });
 

@@ -1,4 +1,4 @@
-# Regnskab MCP
+# Cashfloow
 
 > **English:** A free, open-source [MCP](https://modelcontextprotocol.io) server that gives Claude (or any MCP client) finished analyses of a Danish company's cash flow, receivables, sales and inventory from the accounting system [e-conomic](https://www.e-conomic.dk): 13-week cash forecast with Monte Carlo risk, payment behaviour per customer, sales forecasts with backtested error metrics, anomaly detection, and reorder points with calibrated safety stock. It runs locally on your own machine with your own e-conomic tokens, is read-only, and sends your data nowhere except to Claude. Tools and answers are in Danish. MIT licensed.
 
@@ -13,16 +13,16 @@ Projektet er ikke tilknyttet, godkendt af eller udviklet af e-conomic eller Vism
 
 ## Kom i gang
 
-**Claude Desktop, nemmest:** Hent `regnskab-mcp-<version>.mcpb` under [Releases](../../releases) og dobbeltklik på filen. Claude Desktop viser udvidelsen og felter til dine e-conomic-nøgler. Lad felterne stå tomme for at prøve med eksempeldata. Kræver ikke, at du installerer noget andet.
+**Claude Desktop, nemmest:** Hent `cashfloow-<version>.mcpb` under [Releases](../../releases) og dobbeltklik på filen. Claude Desktop viser udvidelsen og felter til dine e-conomic-nøgler. Lad felterne stå tomme for at prøve med eksempeldata. Kræver ikke, at du installerer noget andet.
 
 **Claude Desktop, manuelt:** Kræver [Node.js](https://nodejs.org) 18 eller nyere. Tilføj under `mcpServers` i `claude_desktop_config.json` (Indstillinger → Udvikler → Rediger konfiguration):
 
 ```json
 {
   "mcpServers": {
-    "regnskab": {
+    "cashfloow": {
       "command": "npx",
-      "args": ["-y", "regnskab-mcp"],
+      "args": ["-y", "cashfloow"],
       "env": {
         "ECONOMIC_APP_SECRET_TOKEN": "...",
         "ECONOMIC_AGREEMENT_GRANT_TOKEN": "..."
@@ -35,7 +35,7 @@ Projektet er ikke tilknyttet, godkendt af eller udviklet af e-conomic eller Vism
 **Claude Code:**
 
 ```bash
-claude mcp add regnskab -e ECONOMIC_APP_SECRET_TOKEN=... -e ECONOMIC_AGREEMENT_GRANT_TOKEN=... -- npx -y regnskab-mcp
+claude mcp add cashfloow -e ECONOMIC_APP_SECRET_TOKEN=... -e ECONOMIC_AGREEMENT_GRANT_TOKEN=... -- npx -y cashfloow
 ```
 
 Uden tokens virker alt på eksempeldata og på e-conomics offentlige demokonto. Spørg fx *"Hvem binder vores penge?"*, *"Løber vi tør for penge før sommerferien?"* eller *"Hvad skal vi bestille hjem?"*.
@@ -43,12 +43,12 @@ Uden tokens virker alt på eksempeldata og på e-conomics offentlige demokonto. 
 **Fra kildekoden:**
 
 ```bash
-git clone https://github.com/<ejer>/regnskab-mcp.git
-cd regnskab-mcp
+git clone https://github.com/<ejer>/cashfloow.git
+cd cashfloow
 npm install
 ```
 
-Åbn mappen i Claude Code, som finder serveren i `.mcp.json`, eller brug `node /fuld/sti/til/regnskab-mcp/mcp-server.js` som kommando i konfigurationen ovenfor.
+Åbn mappen i Claude Code, som finder serveren i `.mcp.json`, eller brug `node /fuld/sti/til/cashfloow/mcp-server.js` som kommando i konfigurationen ovenfor.
 
 ## Brug dit eget regnskab
 
@@ -139,7 +139,7 @@ For vedligeholdere:
 
 ```bash
 npm test
-npm run build:mcpb        # dist/regnskab-mcp-<version>.mcpb
+npm run build:mcpb        # dist/cashfloow-<version>.mcpb
 npm publish               # kører testene først
 ```
 

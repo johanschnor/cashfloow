@@ -1,11 +1,11 @@
 {
-  "name": "regnskab-mcp",
+  "name": "cashfloow",
   "version": "1.0.0",
   "description": "MCP-server, der giver Claude færdige analyser af likviditet, debitorer, salg og lager ud fra e-conomic.",
   "license": "MIT",
   "type": "module",
   "bin": {
-    "regnskab-mcp": "mcp-server.js"
+    "cashfloow": "mcp-server.js"
   },
   "main": "mcp-server.js",
   "files": [

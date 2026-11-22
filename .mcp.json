@@ -1,5 +1,5 @@
 {
   "mcpServers": {
-    "regnskab": { "command": "node", "args": ["mcp-server.js"] }
+    "cashfloow": { "command": "node", "args": ["mcp-server.js"] }
   }
 }
