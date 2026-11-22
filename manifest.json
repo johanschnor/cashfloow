@@ -1,0 +1,43 @@
+{
+  "manifest_version": "0.3",
+  "name": "regnskab-mcp",
+  "display_name": "Regnskab MCP",
+  "version": "1.0.0",
+  "description": "Færdige analyser af likviditet, debitorer, salg og lager ud fra e-conomic. Gratis, lokal og kun læsning.",
+  "long_description": "Giver Claude færdige analyser af en virksomheds regnskab i e-conomic i stedet for rå data: likviditetsprognose for 13 uger med Monte Carlo-risiko, hvilke kunder der binder penge og bliver langsommere til at betale, salgsprognoser med testede fejlmål, mulige dobbeltfakturaer og usædvanlige beløb, og hvad der skal bestilles hjem med kalibreret sikkerhedslager.\n\nKører lokalt på din computer med dine egne e-conomic-nøgler og skriver aldrig til e-conomic. Uden nøgler virker alt på en opdigtet eksempelvirksomhed og på e-conomics offentlige demokonto. Ikke tilknyttet e-conomic eller Visma.",
+  "author": { "name": "Regnskab MCP contributors" },
+  "license": "MIT",
+  "keywords": ["e-conomic", "regnskab", "likviditet", "debitorer", "lagerstyring", "prognose", "danmark"],
+  "server": {
+    "type": "node",
+    "entry_point": "mcp-server.js",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/mcp-server.js"],
+      "env": {
+        "ECONOMIC_APP_SECRET_TOKEN": "${user_config.app_secret_token}",
+        "ECONOMIC_AGREEMENT_GRANT_TOKEN": "${user_config.agreement_grant_token}"
+      }
+    }
+  },
+  "user_config": {
+    "app_secret_token": {
+      "type": "string",
+      "title": "e-conomic AppSecretToken",
+      "description": "Fra din app på e-conomic.com/developer. Lad stå tomt for at prøve med eksempeldata og e-conomics demokonto.",
+      "sensitive": true,
+      "required": false
+    },
+    "agreement_grant_token": {
+      "type": "string",
+      "title": "e-conomic AgreementGrantToken",
+      "description": "Fås når du godkender appens adgang i din e-conomic. Lad stå tomt for demokontoen.",
+      "sensitive": true,
+      "required": false
+    }
+  },
+  "compatibility": {
+    "platforms": ["darwin", "win32", "linux"],
+    "runtimes": { "node": ">=18.0.0" }
+  }
+}

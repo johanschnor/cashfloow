@@ -13,28 +13,16 @@ Projektet er ikke tilknyttet, godkendt af eller udviklet af e-conomic eller Vism
 
 ## Kom i gang
 
-Kræver [Node.js](https://nodejs.org) 18 eller nyere.
+**Claude Desktop, nemmest:** Hent `regnskab-mcp-<version>.mcpb` under [Releases](../../releases) og dobbeltklik på filen. Claude Desktop viser udvidelsen og felter til dine e-conomic-nøgler. Lad felterne stå tomme for at prøve med eksempeldata. Kræver ikke, at du installerer noget andet.
 
-```bash
-git clone https://github.com/<ejer>/regnskab-mcp.git
-cd regnskab-mcp
-npm install
-```
-
-**Claude Code:** Åbn mappen. Claude Code finder serveren i `.mcp.json` og spørger, om den må bruges. Eller tilføj den til alle projekter:
-
-```bash
-claude mcp add regnskab -- node /fuld/sti/til/regnskab-mcp/mcp-server.js
-```
-
-**Claude Desktop:** Tilføj under `mcpServers` i `claude_desktop_config.json` (Indstillinger → Udvikler → Rediger konfiguration):
+**Claude Desktop, manuelt:** Kræver [Node.js](https://nodejs.org) 18 eller nyere. Tilføj under `mcpServers` i `claude_desktop_config.json` (Indstillinger → Udvikler → Rediger konfiguration):
 
 ```json
 {
   "mcpServers": {
     "regnskab": {
-      "command": "node",
-      "args": ["/fuld/sti/til/regnskab-mcp/mcp-server.js"],
+      "command": "npx",
+      "args": ["-y", "regnskab-mcp"],
       "env": {
         "ECONOMIC_APP_SECRET_TOKEN": "...",
         "ECONOMIC_AGREEMENT_GRANT_TOKEN": "..."
@@ -44,13 +32,29 @@ claude mcp add regnskab -- node /fuld/sti/til/regnskab-mcp/mcp-server.js
 }
 ```
 
+**Claude Code:**
+
+```bash
+claude mcp add regnskab -e ECONOMIC_APP_SECRET_TOKEN=... -e ECONOMIC_AGREEMENT_GRANT_TOKEN=... -- npx -y regnskab-mcp
+```
+
 Uden tokens virker alt på eksempeldata og på e-conomics offentlige demokonto. Spørg fx *"Hvem binder vores penge?"*, *"Løber vi tør for penge før sommerferien?"* eller *"Hvad skal vi bestille hjem?"*.
+
+**Fra kildekoden:**
+
+```bash
+git clone https://github.com/<ejer>/regnskab-mcp.git
+cd regnskab-mcp
+npm install
+```
+
+Åbn mappen i Claude Code, som finder serveren i `.mcp.json`, eller brug `node /fuld/sti/til/regnskab-mcp/mcp-server.js` som kommando i konfigurationen ovenfor.
 
 ## Brug dit eget regnskab
 
 1. Opret en gratis udvikleraftale og en app på https://www.e-conomic.com/developer. Så får du et *AppSecretToken*.
 2. Åbn appens installationslink og godkend adgangen i din e-conomic. Så får du et *AgreementGrantToken*.
-3. Sæt begge tokens i `env` i Claude-konfigurationen ovenfor, eller kopiér `.env.example` til `.env` og indsæt dem der.
+3. Indsæt begge tokens i udvidelsens felter i Claude Desktop, i `env` i konfigurationen ovenfor, eller (fra kildekoden) i en `.env`-fil kopieret fra `.env.example`.
 
 Hvert værktøj tager `kilde`: `"eksempel"` (standard) eller `"e-conomic"`. Bed Claude om at bruge e-conomic, når du vil have dine egne tal.
 
@@ -129,6 +133,18 @@ Starter MCP-serveren over stdio som Claude gør, kalder alle værktøjer og tjek
 - **Leverandørfakturaer** har ingen varelinjer i e-conomic. Prisudvikling pr. vare kræver e-fakturaer (Peppol/NemHandel).
 - **Lager:** Beholdningen (`inventory` på varen) findes kun, når e-conomics lagermodul er slået til. Uden den giver lagerværktøjerne salgsmønstre og genbestillingspunkter, men kan ikke sige, hvad der skal bestilles. Leverandørers leveringstider findes ikke i e-conomic: standard er 14 dage, og Claude kan angive en anden. Fakturalinjer hentes én faktura ad gangen (de seneste 24 måneder, højst 3.000 fakturaer), og kun når et lagerværktøj bruges. Første kald kan derfor tage et minut for en stor virksomhed, derefter caches det i 30 minutter.
 
+## Udgivelse
+
+For vedligeholdere:
+
+```bash
+npm test
+npm run build:mcpb        # dist/regnskab-mcp-<version>.mcpb
+npm publish               # kører testene først
+```
+
+`build:mcpb` samler serveren med produktionsafhængighederne, tager værktøjslisten direkte fra den kørende server, validerer manifestet og pakker. Et tag som `v1.0.1` får GitHub Actions til at bygge `.mcpb`-filen og lægge den på en release. Hold `version` i `package.json` og `manifest.json` ens; build-scriptet bruger versionen fra `package.json`.
+
 ## Struktur
 
 ```
@@ -146,6 +162,8 @@ lib/stats.js             Statistikfunktioner uden eksterne biblioteker
 lib/tools.js             MCP-værktøjerne
 lib/fragt/               Fragtanalyse på eksempel-webshoppen
 test/mcp.test.mjs        End-to-end test over stdio
+manifest.json            Manifest til Claude Desktop-udvidelsen (.mcpb)
+scripts/build-mcpb.mjs   Bygger .mcpb-filen
 ```
 
 ## Bidrag

@@ -18,9 +18,11 @@ import { analyze as analyzeFragt } from "./lib/fragt/analyze.js";
 
 const root = path.dirname(fileURLToPath(import.meta.url));
 loadDotEnv(path.join(root, ".env"));
+// Empty or an unfilled "${user_config...}" placeholder (Claude Desktop extension left blank) means the demo account.
+const token = (v) => (v && !v.startsWith("${") ? v.trim() : "demo");
 const tokens = {
-  appSecretToken: process.env.ECONOMIC_APP_SECRET_TOKEN || "demo",
-  agreementGrantToken: process.env.ECONOMIC_AGREEMENT_GRANT_TOKEN || "demo",
+  appSecretToken: token(process.env.ECONOMIC_APP_SECRET_TOKEN),
+  agreementGrantToken: token(process.env.ECONOMIC_AGREEMENT_GRANT_TOKEN),
 };
 
 const cache = new Map(); // kilde -> { at, result }

@@ -13,7 +13,9 @@ const ok = (cond, msg) => { console.log((cond ? "OK  " : "FAIL") + "  " + msg); 
 // Run against the demo account even if the developer has their own tokens in the environment.
 const env = { ...process.env, ECONOMIC_APP_SECRET_TOKEN: "demo", ECONOMIC_AGREEMENT_GRANT_TOKEN: "demo" };
 const client = new Client({ name: "test", version: "1.0.0" });
-await client.connect(new StdioClientTransport({ command: process.execPath, args: [path.join(root, "mcp-server.js")], env, cwd: root }));
+// SERVER=/path/to/mcp-server.js tests an installed copy (npm package or unpacked .mcpb) instead of this folder.
+const entry = process.env.SERVER || path.join(root, "mcp-server.js");
+await client.connect(new StdioClientTransport({ command: process.execPath, args: [entry], env, cwd: path.dirname(entry) }));
 
 async function ask(name, args = {}) {
   const t = Date.now();
