@@ -14,7 +14,7 @@ Not affiliated with, endorsed by or developed by e-conomic or Visma.
 
 ## Get started
 
-**Claude Desktop, easiest:** Download `cashfloow-<version>.mcpb` from [Releases](../../releases) and double-click it (or Settings → Extensions → Advanced settings → Install Extension). Claude Desktop shows fields for your e-conomic tokens and an **English** checkbox. Leave the tokens empty to try with sample data. Nothing else to install.
+**Claude Desktop, easiest:** Download `cashfloow-<version>.mcpb` from [Releases](https://github.com/johanschnor/cashfloow/releases/latest) and double-click it (or Settings → Extensions → Advanced settings → Install Extension). Claude Desktop shows fields for your e-conomic tokens and an **English** checkbox. Leave the tokens empty to try with sample data. Nothing else to install.
 
 **Claude Desktop, manually:** Needs [Node.js](https://nodejs.org) 18 or later. Add under `mcpServers` in `claude_desktop_config.json` (Settings → Developer → Edit Config):
 
@@ -45,7 +45,7 @@ Without tokens everything works on sample data and on e-conomic's public demo ac
 **From source:**
 
 ```bash
-git clone https://github.com/<owner>/cashfloow.git
+git clone https://github.com/johanschnor/cashfloow.git
 cd cashfloow
 npm install
 ```

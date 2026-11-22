@@ -50,5 +50,13 @@
   },
   "devDependencies": {
     "@anthropic-ai/mcpb": "2.1.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/johanschnor/cashfloow.git"
+  },
+  "homepage": "https://github.com/johanschnor/cashfloow#readme",
+  "bugs": {
+    "url": "https://github.com/johanschnor/cashfloow/issues"
   }
 }

@@ -13,7 +13,7 @@ Projektet er ikke tilknyttet, godkendt af eller udviklet af e-conomic eller Vism
 
 ## Kom i gang
 
-**Claude Desktop, nemmest:** Hent `cashfloow-<version>.mcpb` under [Releases](../../releases) og dobbeltklik på filen. Claude Desktop viser udvidelsen og felter til dine e-conomic-nøgler. Lad felterne stå tomme for at prøve med eksempeldata. Kræver ikke, at du installerer noget andet.
+**Claude Desktop, nemmest:** Hent `cashfloow-<version>.mcpb` under [Releases](https://github.com/johanschnor/cashfloow/releases/latest) og dobbeltklik på filen. Claude Desktop viser udvidelsen og felter til dine e-conomic-nøgler. Lad felterne stå tomme for at prøve med eksempeldata. Kræver ikke, at du installerer noget andet.
 
 **Claude Desktop, manuelt:** Kræver [Node.js](https://nodejs.org) 18 eller nyere. Tilføj under `mcpServers` i `claude_desktop_config.json` (Indstillinger → Udvikler → Rediger konfiguration):
 
@@ -43,7 +43,7 @@ Uden tokens virker alt på eksempeldata og på e-conomics offentlige demokonto. 
 **Fra kildekoden:**
 
 ```bash
-git clone https://github.com/<ejer>/cashfloow.git
+git clone https://github.com/johanschnor/cashfloow.git
 cd cashfloow
 npm install
 ```
