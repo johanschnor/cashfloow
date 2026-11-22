@@ -1,6 +1,7 @@
 {
   "name": "cashfloow",
-  "version": "1.1.0",
+  "version": "1.1.1",
+  "mcpName": "io.github.johanschnor/cashfloow",
   "description": "MCP server that gives Claude finished analyses of cash flow, receivables, sales and stock from e-conomic, in English or Danish.",
   "license": "MIT",
   "type": "module",

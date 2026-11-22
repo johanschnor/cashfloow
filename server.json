@@ -1,0 +1,43 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.johanschnor/cashfloow",
+  "description": "Cash flow, receivables, sales and inventory analyses from e-conomic for Claude. English and Danish.",
+  "repository": {
+    "url": "https://github.com/johanschnor/cashfloow",
+    "source": "github"
+  },
+  "version": "1.1.1",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "cashfloow",
+      "version": "1.1.1",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "ECONOMIC_APP_SECRET_TOKEN",
+          "description": "e-conomic AppSecretToken from your app at e-conomic.com/developer. Leave empty for sample data and the demo account.",
+          "isRequired": false,
+          "format": "string",
+          "isSecret": true
+        },
+        {
+          "name": "ECONOMIC_AGREEMENT_GRANT_TOKEN",
+          "description": "e-conomic AgreementGrantToken, given when you approve the app in your e-conomic. Leave empty for the demo account.",
+          "isRequired": false,
+          "format": "string",
+          "isSecret": true
+        },
+        {
+          "name": "CASHFLOOW_LANG",
+          "description": "\"en\" for English tools and answers. Empty for Danish.",
+          "isRequired": false,
+          "format": "string",
+          "isSecret": false
+        }
+      ]
+    }
+  ]
+}
