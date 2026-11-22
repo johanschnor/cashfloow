@@ -1,7 +1,9 @@
-# Sikkerhed
+# Security
 
-Cashfloow kører lokalt og læser regnskabsdata med de e-conomic-tokens, du selv giver den. Den gemmer intet på disk, skriver aldrig til e-conomic og sender kun data til den MCP-klient, der har startet den.
+Cashfloow runs locally and reads accounting data with the e-conomic tokens you give it. It stores nothing on disk, never writes to e-conomic and only sends data to the MCP client that started it.
 
-**Meld et sikkerhedshul:** Brug GitHubs "Report a vulnerability" under fanen Security i repoet. Opret ikke et offentligt issue for sikkerhedshuller.
+**Report a vulnerability:** Use GitHub's "Report a vulnerability" under the Security tab of the repository. Do not open a public issue for security problems.
 
-**Dine tokens:** `ECONOMIC_APP_SECRET_TOKEN` og `ECONOMIC_AGREEMENT_GRANT_TOKEN` giver læseadgang til dit regnskab. Læg dem kun i `.env` eller i din Claude-konfiguration, aldrig i kode, issues eller pull requests. Mistænker du, at de er lækket, så tilbagekald appens adgang i e-conomic og opret nye.
+**Your tokens:** `ECONOMIC_APP_SECRET_TOKEN` and `ECONOMIC_AGREEMENT_GRANT_TOKEN` give read access to your accounts. Only put them in `.env` or your Claude configuration, never in code, issues or pull requests. If you suspect they have leaked, revoke the app's access in e-conomic and create new ones.
+
+*På dansk:* Meld sikkerhedshuller via "Report a vulnerability" under fanen Security, ikke i et offentligt issue. Læg kun dine tokens i `.env` eller Claude-konfigurationen.

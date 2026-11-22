@@ -8,6 +8,7 @@ import { loadFromEconomic } from "./lib/economic.js";
 import { loadSample } from "./lib/sample.js";
 import { analyze } from "./lib/analyze.js";
 import { forecast } from "./lib/forecast.js";
+import { isEn } from "./lib/i18n.js";
 
 const root = path.dirname(fileURLToPath(import.meta.url));
 loadDotEnv(path.join(root, ".env"));
@@ -31,6 +32,7 @@ const server = http.createServer(async (req, res) => {
       const data = source === "economic" ? await loadFromEconomic(tokens) : loadSample();
       const result = analyze(data);
       result.forecast = forecast(data, result);
+      result.lang = isEn() ? "en" : "da";
       cache.set(source, { at: Date.now(), result });
       return send(res, 200, result);
     }

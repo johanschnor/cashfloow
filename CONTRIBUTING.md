@@ -1,8 +1,11 @@
-# Bidrag
+# Contributing
 
-Tak fordi du vil hjælpe.
+Thanks for helping.
 
-- **Fejl og ønsker:** Opret et issue. Beskriv hvad du spurgte om, hvad du fik, og hvad du forventede. Indsæt aldrig rigtige regnskabsdata eller tokens; brug eksempeldata eller e-conomics demokonto.
-- **Kode:** Ingen eksterne biblioteker til beregninger; statistik ligger i `lib/stats.js`. Værktøjernes navne, beskrivelser og svar er på dansk; kommentarer i koden på engelsk.
-- **Nye analyser:** Læg en situation ind i eksempeldata (`lib/sample.js`, `lib/sample-inventory.js`), som metoden skal finde, og en test i `test/mcp.test.mjs`, der tjekker det. Så kan alle se, at metoden virker.
-- **Før pull request:** `npm test` skal bestå.
+- **Bugs and ideas:** Open an issue. Describe what you asked, what you got and what you expected. Never paste real accounting data or tokens; use the sample data or e-conomic's demo account.
+- **Code:** No external libraries for calculations; statistics live in `lib/stats.js`. Code comments are in English.
+- **Both languages:** Every text a user or Claude sees exists in Danish and English. Write sentences with `tr(danish, english)` from `lib/i18n.js`. Field names in answers are built in Danish and translated in `KEYS` in `lib/i18n.js`; add new ones there. Tools are registered with `reg()` from `lib/register.js` with both names. The test fails if a field name is left untranslated.
+- **New analyses:** Build a situation into the sample data (`lib/sample.js`, `lib/sample-inventory.js`) that the method should find, and add a test in `test/mcp.test.mjs` that checks it. That way everyone can see the method works.
+- **Before a pull request:** `npm test` must pass.
+
+*På dansk:* Fejl og forslag som issues, aldrig med rigtige regnskabsdata eller tokens. Al tekst findes på dansk og engelsk via `tr()`, og `npm test` skal bestå.

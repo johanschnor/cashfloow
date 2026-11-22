@@ -13,11 +13,11 @@
 <header class="top">
   <div>
     <h1>Cashfloow</h1>
-    <p class="sub" id="company">Henter data …</p>
+    <p class="sub" id="company">Henter data … / Loading …</p>
   </div>
   <div class="controls">
     <div class="seg" role="group" aria-label="Datakilde">
-      <button type="button" data-source="sample" aria-pressed="true">Eksempelvirksomhed</button>
+      <button type="button" data-source="sample" aria-pressed="true" data-en="Sample company">Eksempelvirksomhed</button>
       <button type="button" data-source="economic" aria-pressed="false">e-conomic</button>
     </div>
     <span class="asof" id="asof"></span>
@@ -28,50 +28,50 @@
   <p class="note" id="asofNote" hidden></p>
 
   <section aria-labelledby="h-likviditet">
-    <h2 id="h-likviditet">Likviditet, de næste 13 uger</h2>
+    <h2 id="h-likviditet" data-en="Cash, the next 13 weeks">Likviditet, de næste 13 uger</h2>
     <div class="tiles" id="cashTiles"></div>
     <ul class="insights" id="cashInsights"></ul>
     <figure class="card">
-      <figcaption><strong>Forventet banksaldo ved ugens slutning</strong><span>Under nul-linjen betyder overtræk. Hold musen over en søjle for at se ugens poster.</span></figcaption>
+      <figcaption><strong data-en="Expected bank balance at the end of each week">Forventet banksaldo ved ugens slutning</strong><span data-en="Below the zero line means overdraft. Hover over a bar to see the week's items.">Under nul-linjen betyder overtræk. Hold musen over en søjle for at se ugens poster.</span></figcaption>
       <div class="chart" id="cashChart"></div>
     </figure>
     <details class="card">
-      <summary><strong>Uge for uge og antagelser</strong></summary>
+      <summary><strong data-en="Week by week and assumptions">Uge for uge og antagelser</strong></summary>
       <ul class="assumptions" id="cashAssumptions"></ul>
       <div class="table-wrap"><table id="cashTable"></table></div>
     </details>
   </section>
 
   <section aria-labelledby="h-kunder">
-    <h2 id="h-kunder">Kunder</h2>
+    <h2 id="h-kunder" data-en="Customers">Kunder</h2>
     <div class="tiles" id="custTiles"></div>
     <ul class="insights" id="insights"></ul>
     <div class="grid2">
       <figure class="card">
-        <figcaption><strong>Udestående efter alder</strong><span>Ubetalte kundefakturaer, dage efter forfald</span></figcaption>
+        <figcaption><strong data-en="Outstanding by age">Udestående efter alder</strong><span data-en="Unpaid customer invoices, days after due date">Ubetalte kundefakturaer, dage efter forfald</span></figcaption>
         <div class="chart" id="agingChart"></div>
       </figure>
       <figure class="card">
-        <figcaption><strong>Dage betalt efter forfald</strong><span>Gennemsnit pr. måned, de seneste 12 måneder. Under 0 betyder før forfald.</span></figcaption>
+        <figcaption><strong data-en="Days paid after due date">Dage betalt efter forfald</strong><span data-en="Average per month, the last 12 months. Below 0 means before the due date.">Gennemsnit pr. måned, de seneste 12 måneder. Under 0 betyder før forfald.</span></figcaption>
         <div class="chart" id="lateChart"></div>
       </figure>
     </div>
     <div class="card">
-      <div class="card-head"><strong>Kunder</strong><span>Klik på en kolonne for at sortere. Seneste 12 måneder.</span></div>
+      <div class="card-head"><strong data-en="Customers">Kunder</strong><span data-en="Click a column to sort. Last 12 months.">Klik på en kolonne for at sortere. Seneste 12 måneder.</span></div>
       <div class="table-wrap"><table id="custTable"></table></div>
     </div>
   </section>
 
   <section aria-labelledby="h-lev">
-    <h2 id="h-lev">Leverandører</h2>
+    <h2 id="h-lev" data-en="Suppliers">Leverandører</h2>
     <div class="tiles" id="supTiles"></div>
     <div class="grid2">
       <figure class="card">
-        <figcaption><strong>Andel af indkøb pr. leverandør</strong><span>Seneste 12 måneder</span></figcaption>
+        <figcaption><strong data-en="Share of purchases by supplier">Andel af indkøb pr. leverandør</strong><span data-en="Last 12 months">Seneste 12 måneder</span></figcaption>
         <div class="chart" id="supChart"></div>
       </figure>
       <figure class="card">
-        <figcaption><strong>Andel af indkøb pr. land</strong><span>Seneste 12 måneder</span></figcaption>
+        <figcaption><strong data-en="Share of purchases by country">Andel af indkøb pr. land</strong><span data-en="Last 12 months">Seneste 12 måneder</span></figcaption>
         <div class="chart" id="countryChart"></div>
       </figure>
     </div>
@@ -80,7 +80,7 @@
 </main>
 
 <div class="tip" id="tip" role="tooltip" hidden></div>
-<footer class="foot">Prototype · Data læses direkte fra e-conomic via deres REST API og bliver ikke gemt.</footer>
+<footer class="foot" data-en="Data is read directly from e-conomic through its REST API and is not stored.">Data læses direkte fra e-conomic via deres REST API og bliver ikke gemt.</footer>
 <script type="module" src="app.js"></script>
 </body>
 </html>

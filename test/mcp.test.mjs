@@ -78,5 +78,45 @@ if (!process.env.OFFLINE) {
 }
 
 await client.close();
+
+// ---------------- English (CASHFLOOW_LANG=en) ----------------
+const { danishKeys } = await import("../lib/i18n.js");
+const DA_KEYS = danishKeys();
+const en = new Client({ name: "test-en", version: "1.0.0" });
+await en.connect(new StdioClientTransport({ command: process.execPath, args: [entry], env: { ...env, CASHFLOOW_LANG: "en" }, cwd: path.dirname(entry) }));
+const askEn = async (name, args = {}) => {
+  const r = await en.callTool({ name, arguments: args });
+  return { data: JSON.parse(r.content[0].text), isError: !!r.isError };
+};
+const enTools = (await en.listTools()).tools;
+const enNames = ["company_overview", "customers_tying_up_cash", "customer", "unpaid_invoices", "payment_time_by_month", "suppliers", "cash_forecast",
+  "sales_forecast", "cash_risk", "anomalies", "inventory_overview", "reorder", "product", "freight_overview", "compare_carriers", "delay_effect",
+  "freight_statistics", "delivery_where_and_when"];
+ok(enNames.every((n) => enTools.some((t) => t.name === n)) && enTools.length === 18, "engelsk: 18 værktøjer med engelske navne");
+ok(enTools.every((t) => !/[æøå]/i.test(t.description) && Object.keys(t.inputSchema.properties || {}).every((k) => !/[æøå]/.test(k))), "engelsk: beskrivelser og parametre uden danske bogstaver");
+// Every field name in every answer must be translated.
+const leftovers = new Set();
+const walk = (o) => { if (Array.isArray(o)) o.forEach(walk); else if (o && typeof o === "object") for (const [k, v] of Object.entries(o)) { if (DA_KEYS.has(k) || /[æøå]/.test(k)) leftovers.add(k); walk(v); } };
+for (const name of enNames) {
+  const args = name === "customer" ? { name: "Konferencecenteret" } : name === "product" ? { name: "hynde" } : {};
+  const r = await askEn(name, args);
+  if (r.isError) leftovers.add("FEJL i " + name);
+  walk(r.data);
+}
+ok(!leftovers.size, `engelsk: alle feltnavne er oversat${leftovers.size ? ": " + [...leftovers].join(", ") : ""}`);
+r = await askEn("company_overview");
+ok(r.data.source === "Sample company" && r.data.findings.some((f) => /has become \d+ days slower to pay/.test(f)), "engelsk: fund i klart sprog (Konferencecenteret er blevet langsommere)");
+r = await askEn("customers_tying_up_cash", { sort_by: "trend" });
+ok(r.data.sorted_by === "trend" && r.data.customers.some((c) => c.name === "Konferencecenteret" && c.trend_assessment === "slower"), "engelsk: sort_by og kategoriværdier oversættes begge veje");
+r = await askEn("product", { name: "hynde" });
+ok(r.data.pattern === "smooth" && r.data.findings.some((f) => /smooth demand/.test(f)), "engelsk: efterspørgselsmønster på engelsk");
+r = await askEn("reorder");
+ok(r.data.order_now?.length > 0 && /DKK [\d,]+/.test(r.data.findings[0]), `engelsk: genbestilling med beløb som ${r.data.findings[0].match(/DKK [\d,]+/)?.[0]}`);
+r = await askEn("cash_risk", { minimum_balance: 2000000 });
+ok(r.data.probability_below_minimum > 0.99, "engelsk: parameternavne virker (minimum_balance)");
+r = await askEn("delivery_where_and_when", { breakdown: "weekday" });
+ok(r.data.rows?.[0]?.weekday === "Mon", "engelsk: ugedage på engelsk");
+await en.close();
+
 console.log(failures ? `\n${failures} test(s) fejlede.` : "\nAlle tests bestod.");
 process.exit(failures ? 1 : 0);

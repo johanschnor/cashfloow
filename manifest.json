@@ -2,21 +2,36 @@
   "manifest_version": "0.3",
   "name": "cashfloow",
   "display_name": "Cashfloow",
-  "version": "1.0.0",
-  "description": "Færdige analyser af likviditet, debitorer, salg og lager ud fra e-conomic. Gratis, lokal og kun læsning.",
-  "long_description": "Giver Claude færdige analyser af en virksomheds regnskab i e-conomic i stedet for rå data: likviditetsprognose for 13 uger med Monte Carlo-risiko, hvilke kunder der binder penge og bliver langsommere til at betale, salgsprognoser med testede fejlmål, mulige dobbeltfakturaer og usædvanlige beløb, og hvad der skal bestilles hjem med kalibreret sikkerhedslager.\n\nKører lokalt på din computer med dine egne e-conomic-nøgler og skriver aldrig til e-conomic. Uden nøgler virker alt på en opdigtet eksempelvirksomhed og på e-conomics offentlige demokonto. Ikke tilknyttet e-conomic eller Visma.",
-  "author": { "name": "Cashfloow contributors" },
+  "version": "1.1.0",
+  "description": "Finished analyses of cash flow, receivables, sales and stock from e-conomic, in English or Danish. Free, local and read-only.",
+  "long_description": "Gives Claude finished analyses of a company's accounts in e-conomic instead of raw data: a 13-week cash forecast with Monte Carlo risk, which customers tie up cash and are becoming slower to pay, sales forecasts with tested error metrics, possible duplicate invoices and unusual amounts, and what to reorder with calibrated safety stock.\n\nRuns locally on your computer with your own e-conomic tokens and never writes to e-conomic. Without tokens everything works on a made-up sample company and on e-conomic's public demo account. Tools and answers in English or Danish. Not affiliated with e-conomic or Visma.\n\nGiver Claude færdige analyser af regnskabet i e-conomic: likviditetsprognose, kunder der binder penge, salgsprognoser, afvigelser og genbestilling. Svarer på dansk som standard.",
+  "author": {
+    "name": "Cashfloow contributors"
+  },
   "license": "MIT",
-  "keywords": ["e-conomic", "regnskab", "likviditet", "debitorer", "lagerstyring", "prognose", "danmark"],
+  "keywords": [
+    "e-conomic",
+    "accounting",
+    "cash flow",
+    "receivables",
+    "inventory",
+    "forecast",
+    "denmark",
+    "regnskab",
+    "likviditet"
+  ],
   "server": {
     "type": "node",
     "entry_point": "mcp-server.js",
     "mcp_config": {
       "command": "node",
-      "args": ["${__dirname}/mcp-server.js"],
+      "args": [
+        "${__dirname}/mcp-server.js"
+      ],
       "env": {
         "ECONOMIC_APP_SECRET_TOKEN": "${user_config.app_secret_token}",
-        "ECONOMIC_AGREEMENT_GRANT_TOKEN": "${user_config.agreement_grant_token}"
+        "ECONOMIC_AGREEMENT_GRANT_TOKEN": "${user_config.agreement_grant_token}",
+        "CASHFLOOW_LANG": "${user_config.english}"
       }
     }
   },
@@ -24,20 +39,33 @@
     "app_secret_token": {
       "type": "string",
       "title": "e-conomic AppSecretToken",
-      "description": "Fra din app på e-conomic.com/developer. Lad stå tomt for at prøve med eksempeldata og e-conomics demokonto.",
+      "description": "From your app at e-conomic.com/developer. Leave empty to try with sample data and e-conomic's demo account. / Fra din app på e-conomic.com/developer. Lad stå tomt for eksempeldata.",
       "sensitive": true,
       "required": false
     },
     "agreement_grant_token": {
       "type": "string",
       "title": "e-conomic AgreementGrantToken",
-      "description": "Fås når du godkender appens adgang i din e-conomic. Lad stå tomt for demokontoen.",
+      "description": "You get it when you approve the app's access in your e-conomic. Leave empty for the demo account. / Fås når du godkender appens adgang i din e-conomic.",
       "sensitive": true,
+      "required": false
+    },
+    "english": {
+      "type": "boolean",
+      "title": "English / Engelsk",
+      "description": "Tools and answers in English. Off = Danish. / Værktøjer og svar på engelsk. Fra = dansk.",
+      "default": false,
       "required": false
     }
   },
   "compatibility": {
-    "platforms": ["darwin", "win32", "linux"],
-    "runtimes": { "node": ">=18.0.0" }
+    "platforms": [
+      "darwin",
+      "win32",
+      "linux"
+    ],
+    "runtimes": {
+      "node": ">=18.0.0"
+    }
   }
 }

@@ -1,7 +1,7 @@
 {
   "name": "cashfloow",
-  "version": "1.0.0",
-  "description": "MCP-server, der giver Claude færdige analyser af likviditet, debitorer, salg og lager ud fra e-conomic.",
+  "version": "1.1.0",
+  "description": "MCP server that gives Claude finished analyses of cash flow, receivables, sales and stock from e-conomic, in English or Danish.",
   "license": "MIT",
   "type": "module",
   "bin": {
@@ -16,7 +16,8 @@
     "manifest.json",
     "README.md",
     "LICENSE",
-    ".env.example"
+    ".env.example",
+    "README.da.md"
   ],
   "scripts": {
     "start": "node mcp-server.js",
@@ -29,16 +30,19 @@
     "node": ">=18"
   },
   "keywords": [
-    "mcp",
+    "accounting",
+    "cash-flow",
     "claude",
+    "debitorer",
     "e-conomic",
-    "regnskab",
-    "likviditet",
+    "inventory",
     "lagerstyring",
-    "model-context-protocol",
-    "mcp-server",
+    "likviditet",
     "likviditetsprognose",
-    "debitorer"
+    "mcp",
+    "mcp-server",
+    "model-context-protocol",
+    "regnskab"
   ],
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.32.2",

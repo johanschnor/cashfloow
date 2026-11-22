@@ -1,21 +1,22 @@
 # Cashfloow
 
-> **English:** A free, open-source [MCP](https://modelcontextprotocol.io) server that gives Claude (or any MCP client) finished analyses of a Danish company's cash flow, receivables, sales and inventory from the accounting system [e-conomic](https://www.e-conomic.dk): 13-week cash forecast with Monte Carlo risk, payment behaviour per customer, sales forecasts with backtested error metrics, anomaly detection, and reorder points with calibrated safety stock. It runs locally on your own machine with your own e-conomic tokens, is read-only, and sends your data nowhere except to Claude. Tools and answers are in Danish. MIT licensed.
+English · **[Dansk](README.da.md)**
 
-En gratis MCP-server, der giver Claude færdige analyser af en virksomheds likviditet, kunder, leverandører, salg og lager ud fra e-conomic. I stedet for rå regnskabsdata får Claude svar som *"Konferencecenteret er statistisk sikkert blevet 4 dage langsommere til at betale"* eller *"Bestil 40 kontorstole nu: 98 % risiko for udsolgt før næste levering"*.
+A free, open-source [MCP](https://modelcontextprotocol.io) server that gives Claude finished analyses of a company's cash flow, customers, suppliers, sales and stock from the Danish accounting system [e-conomic](https://www.e-conomic.dk). Instead of raw bookkeeping data, Claude gets answers like *"Konferencecenteret has become 6 days slower to pay, and this is not chance"* or *"Order 40 office chairs now: 98% risk of selling out before the next delivery"*.
 
-- **Gratis og åben:** MIT-licens. Ingen konto, ingen server, ingen betaling.
-- **Kører hos dig:** Serveren kører lokalt på din computer med dine egne e-conomic-nøgler. Data går kun mellem e-conomic, din computer og den Claude-klient, du selv bruger.
-- **Kun læsning:** Der skrives aldrig noget til e-conomic.
-- **Prøv uden regnskab:** En opdigtet eksempelvirksomhed med 36 måneders data og en eksempel-webshop med fragtdata følger med.
+- **Free and open:** MIT licence. No account, no server, no payment.
+- **Runs on your machine:** The server runs locally with your own e-conomic tokens. Data only moves between e-conomic, your computer and the Claude client you use.
+- **Read-only:** Nothing is ever written to e-conomic.
+- **Try it without accounts:** A made-up sample company with 36 months of data and a sample webshop with freight data are included.
+- **English or Danish:** Tool names, parameters, field names and findings in either language (`CASHFLOOW_LANG=en`). Danish is the default.
 
-Projektet er ikke tilknyttet, godkendt af eller udviklet af e-conomic eller Visma.
+Not affiliated with, endorsed by or developed by e-conomic or Visma.
 
-## Kom i gang
+## Get started
 
-**Claude Desktop, nemmest:** Hent `cashfloow-<version>.mcpb` under [Releases](../../releases) og dobbeltklik på filen. Claude Desktop viser udvidelsen og felter til dine e-conomic-nøgler. Lad felterne stå tomme for at prøve med eksempeldata. Kræver ikke, at du installerer noget andet.
+**Claude Desktop, easiest:** Download `cashfloow-<version>.mcpb` from [Releases](../../releases) and double-click it (or Settings → Extensions → Advanced settings → Install Extension). Claude Desktop shows fields for your e-conomic tokens and an **English** checkbox. Leave the tokens empty to try with sample data. Nothing else to install.
 
-**Claude Desktop, manuelt:** Kræver [Node.js](https://nodejs.org) 18 eller nyere. Tilføj under `mcpServers` i `claude_desktop_config.json` (Indstillinger → Udvikler → Rediger konfiguration):
+**Claude Desktop, manually:** Needs [Node.js](https://nodejs.org) 18 or later. Add under `mcpServers` in `claude_desktop_config.json` (Settings → Developer → Edit Config):
 
 ```json
 {
@@ -24,6 +25,7 @@ Projektet er ikke tilknyttet, godkendt af eller udviklet af e-conomic eller Vism
       "command": "npx",
       "args": ["-y", "cashfloow"],
       "env": {
+        "CASHFLOOW_LANG": "en",
         "ECONOMIC_APP_SECRET_TOKEN": "...",
         "ECONOMIC_AGREEMENT_GRANT_TOKEN": "..."
       }
@@ -35,57 +37,61 @@ Projektet er ikke tilknyttet, godkendt af eller udviklet af e-conomic eller Vism
 **Claude Code:**
 
 ```bash
-claude mcp add cashfloow -e ECONOMIC_APP_SECRET_TOKEN=... -e ECONOMIC_AGREEMENT_GRANT_TOKEN=... -- npx -y cashfloow
+claude mcp add cashfloow -e CASHFLOOW_LANG=en -e ECONOMIC_APP_SECRET_TOKEN=... -e ECONOMIC_AGREEMENT_GRANT_TOKEN=... -- npx -y cashfloow
 ```
 
-Uden tokens virker alt på eksempeldata og på e-conomics offentlige demokonto. Spørg fx *"Hvem binder vores penge?"*, *"Løber vi tør for penge før sommerferien?"* eller *"Hvad skal vi bestille hjem?"*.
+Without tokens everything works on sample data and on e-conomic's public demo account. Ask for example *"Who is tying up our cash?"*, *"Will we run out of money before the summer?"* or *"What should we reorder?"*.
 
-**Fra kildekoden:**
+**From source:**
 
 ```bash
-git clone https://github.com/<ejer>/cashfloow.git
+git clone https://github.com/<owner>/cashfloow.git
 cd cashfloow
 npm install
 ```
 
-Åbn mappen i Claude Code, som finder serveren i `.mcp.json`, eller brug `node /fuld/sti/til/cashfloow/mcp-server.js` som kommando i konfigurationen ovenfor.
+Open the folder in Claude Code, which finds the server in `.mcp.json`, or use `node /full/path/to/cashfloow/mcp-server.js` as the command in the configuration above.
 
-## Brug dit eget regnskab
+## Use your own accounts
 
-1. Opret en gratis udvikleraftale og en app på https://www.e-conomic.com/developer. Så får du et *AppSecretToken*.
-2. Åbn appens installationslink og godkend adgangen i din e-conomic. Så får du et *AgreementGrantToken*.
-3. Indsæt begge tokens i udvidelsens felter i Claude Desktop, i `env` i konfigurationen ovenfor, eller (fra kildekoden) i en `.env`-fil kopieret fra `.env.example`.
+1. Create a free developer agreement and an app at https://www.e-conomic.com/developer. That gives you an *AppSecretToken*.
+2. Open the app's installation link and approve access in your e-conomic. That gives you an *AgreementGrantToken*.
+3. Put both tokens in the extension's fields in Claude Desktop, in `env` in the configuration above, or (from source) in a `.env` file copied from `.env.example`.
 
-Hvert værktøj tager `kilde`: `"eksempel"` (standard) eller `"e-conomic"`. Bed Claude om at bruge e-conomic, når du vil have dine egne tal.
+Every tool takes `source`: `"sample"` (default) or `"e-conomic"`. Ask Claude to use e-conomic when you want your own figures.
 
-Dine tokens giver adgang til dit regnskab. Del dem ikke, og commit aldrig `.env` (den står i `.gitignore`).
+Your tokens give access to your accounts. Do not share them, and never commit `.env` (it is in `.gitignore`).
 
-## Værktøjer
+## Language
 
-Alle er kun læsning.
+Set `CASHFLOOW_LANG=en` for English, or tick **English** in the extension's settings. Without it, Cashfloow answers in Danish. The choice changes tool names, descriptions, parameter names, field names in the answers, category values (e.g. demand pattern `smooth`), findings, assumptions and number formats (`DKK 12,500` instead of `12.500 kr.`). Amounts are always in DKK. Names of customers, suppliers and products are left as they are in the accounts. The dashboard follows the same setting.
 
-| Værktøj | Svarer på |
+## Tools
+
+All are read-only. Names in English, with the Danish name in brackets.
+
+| Tool | Answers |
 |---|---|
-| `virksomhedsoverblik` | Nøgletal for kunder og leverandører plus de vigtigste fund |
-| `kunder_der_binder_penge` | Kunder rangeret efter forfaldent beløb, forsinkelse, udvikling eller omsætning |
-| `kunde` | Én kundes betalingsadfærd og ubetalte fakturaer |
-| `ubetalte_fakturaer` | Hvem skal rykkes, og udestående fordelt på alder |
-| `betalingstid_pr_maaned` | Bliver kunderne langsommere til at betale? |
-| `leverandoerer` | Afhængighed af leverandører og lande, og om I selv betaler for tidligt |
-| `likviditetsprognose` | Løber vi tør for penge, hvornår og hvorfor? Banksaldo uge for uge med scenarier |
-| `likviditetsrisiko` | Hvor stor er risikoen? Monte Carlo-simulation, 80 %-intervaller og backtest af prognosen |
-| `salgsprognose` | Salget de næste måneder med intervaller; flere modeller testet mod hinanden med fejlmål |
-| `afvigelser` | Mulige dobbeltfakturaer, usædvanlige beløb og usædvanligt sene betalinger |
-| `lageroverblik` | Lagerværdi, ABC, efterspørgselsmønstre, død beholdning, overlager og prognosernes træfsikkerhed |
-| `genbestilling` | Hvad skal bestilles nu, og hvor meget? Sikkerhedslager, genbestillingspunkt og EOQ pr. vare |
-| `vare` | Én vares salg, prognose, modelfejl og lagerstatus |
-| `fragtoverblik` | Eksempel-webshop: pakker til tiden, returrate, anmeldelser og hvad forsinkelser koster |
-| `sammenlign_fragtfirmaer` | Eksempel-webshop: fragtfirmaer sammenlignet på præcision, returneringer og reel pris pr. pakke |
-| `forsinkelsens_effekt` | Eksempel-webshop: giver forsinkelser flere returneringer og dårligere anmeldelser? |
-| `levering_hvor_og_hvornaar` | Eksempel-webshop: leveringspræcision fordelt på region, ugedag og leveringsform |
-| `fragt_statistik` | Eksempel-webshop: statistiske tests af fragtfirmaer og forsinkelsers effekt |
+| `company_overview` (`virksomhedsoverblik`) | Key figures for customers and suppliers plus the main findings |
+| `customers_tying_up_cash` (`kunder_der_binder_penge`) | Customers ranked by overdue amount, delay, trend or revenue |
+| `customer` (`kunde`) | One customer's payment behaviour and unpaid invoices |
+| `unpaid_invoices` (`ubetalte_fakturaer`) | Who to send a reminder to, and outstanding by age |
+| `payment_time_by_month` (`betalingstid_pr_maaned`) | Are customers getting slower to pay? |
+| `suppliers` (`leverandoerer`) | Dependence on suppliers and countries, and whether you pay too early |
+| `cash_forecast` (`likviditetsprognose`) | Will we run out of money, when and why? Bank balance week by week with scenarios |
+| `cash_risk` (`likviditetsrisiko`) | How big is the risk? Monte Carlo simulation, 80% intervals and a backtest of the forecast |
+| `sales_forecast` (`salgsprognose`) | Sales for the coming months with intervals; several models tested against each other with error metrics |
+| `anomalies` (`afvigelser`) | Possible duplicate invoices, unusual amounts and unusually late payments |
+| `inventory_overview` (`lageroverblik`) | Inventory value, ABC, demand patterns, dead stock, overstock and forecast accuracy |
+| `reorder` (`genbestilling`) | What to order now, and how much? Safety stock, reorder point and EOQ per product |
+| `product` (`vare`) | One product's sales, forecast, model errors and stock status |
+| `freight_overview` (`fragtoverblik`) | Sample webshop: parcels on time, return rate, reviews and what delays cost |
+| `compare_carriers` (`sammenlign_fragtfirmaer`) | Sample webshop: carriers compared on precision, returns and real price per parcel |
+| `delay_effect` (`forsinkelsens_effekt`) | Sample webshop: do delays cause more returns and worse reviews? |
+| `delivery_where_and_when` (`levering_hvor_og_hvornaar`) | Sample webshop: delivery precision by region and weekday |
+| `freight_statistics` (`fragt_statistik`) | Sample webshop: statistical tests of carriers and the effect of delays |
 
-Fragtværktøjerne kører kun på den opdigtede webshop. De viser, hvilke spørgsmål fragtdata kan besvare. Rigtige fragtdata kræver en integration, som ikke er bygget endnu.
+The freight tools only run on the made-up webshop. They show which questions freight data can answer. Real freight data needs an integration that has not been built yet.
 
 ## Dashboard
 
@@ -93,30 +99,30 @@ Fragtværktøjerne kører kun på den opdigtede webshop. De viser, hvilke spørg
 npm run dashboard
 ```
 
-Åbner et lokalt dashboard på http://localhost:4400 med likviditetsprognose, kunder og leverandører. Det bruger de samme data og tokens.
+Opens a local dashboard at http://localhost:4400 with the cash forecast, customers and suppliers. It uses the same data, tokens and language setting.
 
-## Sådan virker likviditetsprognosen
+## How the cash forecast works
 
-- **Startsaldo:** Saldoen på bank- og kassekonti i e-conomics kontoplan.
-- **Kunder:** Åbne fakturaer forventes betalt på forfaldsdagen plus *den kundes* egen gennemsnitlige forsinkelse. Nyt salg følger snittet for de seneste 12 uger og betales efter den normale betalingstid.
-- **Leverandører:** Åbne fakturaer betales, som virksomheden plejer at betale den leverandør. Nye indkøb følger snittet for de seneste 12 uger.
-- **Løn og faste udgifter:** Et skøn ud fra de seneste 3 måneders øvrige bankudbetalinger. Eksempelvirksomheden har dem angivet direkte.
-- **Moms:** Kvartalsvis afregning (1. marts, 1. juni, 1. september og 1. december). Næste frist bruger saldoen på momskontiene, senere frister skønnes ud fra salg og danske indkøb.
+- **Opening balance:** The balance of bank and cash accounts in e-conomic's chart of accounts.
+- **Customers:** Open invoices are expected to be paid on the due date plus *that customer's* own average delay. New sales follow the average of the last 12 weeks and are paid after the usual payment time.
+- **Suppliers:** Open invoices are paid the way the company usually pays that supplier. New purchases follow the average of the last 12 weeks.
+- **Salaries and fixed costs:** An estimate from the last 3 months' other bank payments. The sample company has them set directly.
+- **VAT:** Danish quarterly settlement (1 March, 1 June, 1 September and 1 December). The next deadline uses the balance of the VAT accounts; later deadlines are estimated from sales and Danish purchases.
 
-Alle antagelser returneres sammen med prognosen, så det altid er tydeligt, hvad der er skøn.
+All assumptions are returned with the forecast, so it is always clear what is an estimate.
 
-## Prognoser og statistik
+## Forecasts and statistics
 
-Alle metoder er skrevet uden eksterne biblioteker (`lib/stats.js`) og testet mod tabelværdier.
+All methods are written without external libraries (`lib/stats.js`) and tested against table values.
 
-- **Salgsprognose** (`lib/salesforecast.js`): Månedligt faktureret salg. Modellerne naiv, sæsonnaiv, 3-måneders gennemsnit, Holt med dæmpet trend og Holt-Winters (additiv og multiplikativ, kræver to hele år) testes med en backtest med rullende oprindelse over de seneste op til 12 måneder, alle på de samme oprindelser. Den model med lavest WAPE vælges. Fejlmål: WAPE, MAPE, MAE, RMSE, bias og MASE (i forhold til sæsonnaiv). Intervallerne (80 % og 95 %) bygger på den valgte models egne relative fejl pr. horisont i backtesten.
-- **Likviditetsrisiko** (`lib/cashrisk.js`): Monte Carlo med 2.000 forløb oven på likviditetsprognosen. Hver åben kundefaktura betales efter en forsinkelse trukket fra *den kundes* egne betalinger det seneste år. En forfalden faktura trækkes kun fra forsinkelser, der er længere end den allerede har ventet. Nyt salg og nye indkøb pr. uge trækkes fra de seneste 26 uger og skaleres til prognosens niveau. Saldoen følges dag for dag. Prognosen for kundeindbetalinger backtestes fra 8 tidligere datoer, og det måles, hvor ofte de faktiske indbetalinger lå i simulationens 80 %-interval (kalibrering).
-- **Betalingsadfærd** (`lib/analyze.js`): Lineær regression af dage efter forfald på betalingsdato pr. kunde (mindst 8 betalinger) og samlet. Hældning pr. måned, 95 %-interval og p-værdi. En kunde kaldes kun "langsommere", når p < 0,05.
-- **Afvigelser** (`lib/anomalies.js`): Robust z-score (median og MAD) på logaritmen af fakturabeløb pr. kunde og leverandør, mulige dobbeltfakturaer, og åbne fakturaer over kundens 95. percentil for forsinkelse.
-- **Lagerstyring** (`lib/inventory.js`): Salg pr. vare fra fakturalinjerne, justeret med et fælles sæsonindeks (klassisk dekomponering af månedsomsætningen, kræver 24 hele måneder). Efterspørgselsmønster efter Syntetos–Boylan (ADI og CV²) og ABC efter omsætning (80/15/5 %). Tre modeller (13-ugers gennemsnit, eksponentiel udjævning med valgt α, Croston/SBA) backtestes fra 26 uger på det, der betyder noget for indkøb: salget i leveringstiden. Modellen med lavest MAE vælges. Sikkerhedslager = den valgte models RMSE i backtesten × t-fraktilen for servicegraden med prædiktionskorrektion, så bufferen svarer til, hvor meget prognosen faktisk har ramt ved siden af. Genbestillingspunktet rundes op til hele stk., og ordrestørrelsen er EOQ. Sikkerhedslagrene kontrolleres uden for stikprøven (hver kontrol bruger kun fejl fra tidligere, ikke-overlappende perioder), også pr. mønster. På eksempeldata dækkede de 96 % af leveringsperioderne mod et mål på 95 %, men kun 93 % for klumpede varer mod et mål på 97 %.
-- **Fragtstatistik** (`lib/fragt/stats.js`): Wilson-intervaller for andel til tiden, chi²-test på tværs af fragtfirmaer, parvise tests mod det bedste med Holm-korrektion, logistisk regression af returnering på forsinkelse justeret for produktkategori (odds ratio), Welch t-test på stjerner og p-kontrolkort over ugentlig leveringspræcision.
+- **Sales forecast** (`lib/salesforecast.js`): Monthly invoiced sales. Naive, seasonal naive, 3-month average, Holt with damped trend and Holt-Winters (additive and multiplicative, needs two full years) are tested in a rolling-origin backtest over up to the last 12 months, all on the same origins. The model with the lowest WAPE is chosen. Error metrics: WAPE, MAPE, MAE, RMSE, bias and MASE (relative to seasonal naive). The 80% and 95% intervals are built on the chosen model's own relative errors per horizon in the backtest.
+- **Cash risk** (`lib/cashrisk.js`): Monte Carlo with 2,000 paths on top of the cash forecast. Each open customer invoice is paid after a delay drawn from *that customer's* own payments in the last year. An overdue invoice is only drawn from delays longer than it has already waited. New sales and purchases per week are drawn from the last 26 weeks and scaled to the forecast level. The balance is followed day by day. The forecast of customer payments is backtested from 8 earlier dates, measuring how often actual payments fell inside the simulation's 80% interval (calibration).
+- **Payment behaviour** (`lib/analyze.js`): Linear regression of days after due date on payment date per customer (at least 8 payments) and overall. Slope per month, 95% interval and p-value. A customer is only called "slower" when p < 0.05.
+- **Anomalies** (`lib/anomalies.js`): Robust z-score (median and MAD) on the logarithm of invoice amounts per customer and supplier, possible duplicate invoices, and open invoices beyond the customer's 95th percentile of delay.
+- **Inventory** (`lib/inventory.js`): Sales per product from invoice lines, adjusted with a shared seasonal index (classical decomposition of monthly revenue, needs 24 full months). Demand pattern by Syntetos–Boylan (ADI and CV²) and ABC by revenue (80/15/5%). Three models (13-week average, exponential smoothing with fitted α, Croston/SBA) are backtested from 26 weeks on what matters for purchasing: sales during the lead time. The model with the lowest MAE is chosen. Safety stock = the chosen model's RMSE in the backtest × the t-quantile for the service level with a prediction correction, so the buffer matches how far the forecast has actually missed. The reorder point is rounded up to whole units and the order quantity is EOQ. Safety stocks are checked out of sample (each check only uses errors from earlier, non-overlapping periods), also per pattern. On the sample data they covered 96% of lead times against a 95% target, but only 93% for lumpy products against a 97% target.
+- **Freight statistics** (`lib/fragt/stats.js`): Wilson intervals for share on time, chi² test across carriers, pairwise tests against the best with Holm correction, logistic regression of returns on delay adjusted for product category (odds ratio), Welch t-test on stars and p control charts of weekly delivery precision.
 
-Eksempelvirksomheden har 36 måneders data med sæsonudsving og cirka 8 % vækst om året. Den har indbygget en kunde, der bliver langsommere (Konferencecenteret), samt en for stor leverandørfaktura og en mulig dobbeltfaktura, så man kan se, at metoderne finder dem. Den har også 31 varer med lager og fakturalinjer (`lib/sample-inventory.js`): nogle skal bestilles nu, ét sofabord er udgået med lager tilbage, et par varer har overlager, og én vare er ny.
+The sample company has 36 months of data with seasonality and about 8% annual growth. It has a built-in customer who is getting slower (Konferencecenteret), an oversized supplier invoice and a possible duplicate invoice, so you can see the methods find them. It also has 31 products with stock and invoice lines (`lib/sample-inventory.js`): some must be ordered now, a discontinued coffee table still has stock, a few products are overstocked and one is new.
 
 ## Tests
 
@@ -124,56 +130,57 @@ Eksempelvirksomheden har 36 måneders data med sæsonudsving og cirka 8 % vækst
 npm test
 ```
 
-Starter MCP-serveren over stdio som Claude gør, kalder alle værktøjer og tjekker, at metoderne finder det, der er lagt ind i eksempeldata. Kører også mod e-conomics offentlige demokonto (kræver netværk; spring over med `OFFLINE=1 npm test`). Ingen tokens nødvendige. Testene kører på hver push og pull request via GitHub Actions.
+Starts the MCP server over stdio the way Claude does, calls every tool in both Danish and English, and checks that the methods find what was built into the sample data and that every field name is translated. Also runs against e-conomic's public demo account (needs network; skip with `OFFLINE=1 npm test`). No tokens needed. The tests run on every push and pull request via GitHub Actions.
 
-## Hvad data kan og ikke kan
+## What the data can and cannot tell
 
-- **Kundebetalinger** er bogført med fakturanummer. Betalingsdatoen pr. faktura er derfor præcis.
-- **Leverandørbetalinger** er ikke koblet til en bestemt faktura i e-conomic. De parres efter først-ind-først-ud pr. leverandør, så de er et skøn.
-- **Leverandørfakturaer** har ingen varelinjer i e-conomic. Prisudvikling pr. vare kræver e-fakturaer (Peppol/NemHandel).
-- **Lager:** Beholdningen (`inventory` på varen) findes kun, når e-conomics lagermodul er slået til. Uden den giver lagerværktøjerne salgsmønstre og genbestillingspunkter, men kan ikke sige, hvad der skal bestilles. Leverandørers leveringstider findes ikke i e-conomic: standard er 14 dage, og Claude kan angive en anden. Fakturalinjer hentes én faktura ad gangen (de seneste 24 måneder, højst 3.000 fakturaer), og kun når et lagerværktøj bruges. Første kald kan derfor tage et minut for en stor virksomhed, derefter caches det i 30 minutter.
+- **Customer payments** are booked with the invoice number, so the payment date per invoice is exact.
+- **Supplier payments** are not linked to a specific invoice in e-conomic. They are matched first-in-first-out per supplier, so they are an estimate.
+- **Supplier invoices** have no product lines in e-conomic. Price trends per product need e-invoices (Peppol/NemHandel).
+- **Stock:** Stock levels (`inventory` on the product) only exist when e-conomic's inventory module is enabled. Without it, the inventory tools give sales patterns and reorder points but cannot say what to order. Supplier lead times are not in e-conomic: the default is 14 days and Claude can give another. Invoice lines are fetched one invoice at a time (the last 24 months, at most 3,000 invoices), and only when an inventory tool is used. The first call can therefore take a minute for a large company; after that it is cached for 30 minutes.
 
-## Udgivelse
+## Releasing
 
-For vedligeholdere:
+For maintainers:
 
 ```bash
 npm test
 npm run build:mcpb        # dist/cashfloow-<version>.mcpb
-npm publish               # kører testene først
+npm publish               # runs the tests first
 ```
 
-`build:mcpb` samler serveren med produktionsafhængighederne, tager værktøjslisten direkte fra den kørende server, validerer manifestet og pakker. Et tag som `v1.0.1` får GitHub Actions til at bygge `.mcpb`-filen og lægge den på en release. Hold `version` i `package.json` og `manifest.json` ens; build-scriptet bruger versionen fra `package.json`.
+`build:mcpb` bundles the server with production dependencies, takes the tool list straight from the running server, validates the manifest and packs it. A tag like `v1.1.0` makes GitHub Actions build the `.mcpb` file and attach it to a release. The build script takes the version from `package.json`.
 
-## Struktur
+## Structure
 
 ```
-mcp-server.js            MCP-serveren (stdio)
-server.js, public/       Lokalt dashboard
-lib/economic.js          Læser fra e-conomics REST API
-lib/sample*.js           Eksempelvirksomheden og dens lager
-lib/analyze.js           Kunder, leverandører og betalingsadfærd
-lib/forecast.js          Likviditetsprognose
-lib/cashrisk.js          Monte Carlo-risiko og backtest
-lib/salesforecast.js     Salgsprognose
-lib/anomalies.js         Afvigelser
-lib/inventory.js         Lagerstyring
-lib/stats.js             Statistikfunktioner uden eksterne biblioteker
-lib/tools.js             MCP-værktøjerne
-lib/fragt/               Fragtanalyse på eksempel-webshoppen
+mcp-server.js            The MCP server (stdio)
+server.js, public/       Local dashboard
+lib/economic.js          Reads from e-conomic's REST API
+lib/sample*.js           The sample company and its stock
+lib/analyze.js           Customers, suppliers and payment behaviour
+lib/forecast.js          Cash forecast
+lib/cashrisk.js          Monte Carlo risk and backtest
+lib/salesforecast.js     Sales forecast
+lib/anomalies.js         Anomalies
+lib/inventory.js         Inventory management
+lib/stats.js             Statistics without external libraries
+lib/tools.js             The MCP tools
+lib/i18n.js, register.js Danish and English
+lib/fragt/               Freight analysis on the sample webshop
 test/mcp.test.mjs        End-to-end test over stdio
-manifest.json            Manifest til Claude Desktop-udvidelsen (.mcpb)
-scripts/build-mcpb.mjs   Bygger .mcpb-filen
+manifest.json            Manifest for the Claude Desktop extension (.mcpb)
+scripts/build-mcpb.mjs   Builds the .mcpb file
 ```
 
-## Bidrag
+## Contributing
 
-Fejlrapporter og pull requests er velkomne. Se [CONTRIBUTING.md](CONTRIBUTING.md). Sikkerhedshuller meldes som beskrevet i [SECURITY.md](SECURITY.md).
+Bug reports and pull requests are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md). Report security issues as described in [SECURITY.md](SECURITY.md).
 
-## Ansvarsfraskrivelse
+## Disclaimer
 
-Analyserne er beslutningsstøtte, ikke rådgivning. Prognoser og skøn kan tage fejl, og værktøjerne siger selv, hvor usikre de er. Tjek tallene, før du træffer beslutninger om indkøb, kredit eller finansiering.
+The analyses are decision support, not advice. Forecasts and estimates can be wrong, and the tools say how uncertain they are. Check the figures before making decisions about purchasing, credit or financing.
 
-## Licens
+## Licence
 
 [MIT](LICENSE)
