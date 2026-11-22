@@ -1,0 +1,19 @@
+{
+  "name": "regnskab-mcp",
+  "version": "1.0.0",
+  "description": "MCP-server, der giver Claude færdige analyser af likviditet, debitorer, salg og lager ud fra e-conomic.",
+  "license": "MIT",
+  "type": "module",
+  "bin": { "regnskab-mcp": "mcp-server.js" },
+  "scripts": {
+    "start": "node mcp-server.js",
+    "dashboard": "node server.js",
+    "test": "node test/mcp.test.mjs"
+  },
+  "engines": { "node": ">=18" },
+  "keywords": ["mcp", "claude", "e-conomic", "regnskab", "likviditet", "lagerstyring"],
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "zod": "^4.6.7"
+  }
+}

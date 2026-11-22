@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Regnskab MCP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div>
+    <h1>Regnskab MCP</h1>
+    <p class="sub" id="company">Henter data …</p>
+  </div>
+  <div class="controls">
+    <div class="seg" role="group" aria-label="Datakilde">
+      <button type="button" data-source="sample" aria-pressed="true">Eksempelvirksomhed</button>
+      <button type="button" data-source="economic" aria-pressed="false">e-conomic</button>
+    </div>
+    <span class="asof" id="asof"></span>
+  </div>
+</header>
+
+<main id="app" aria-busy="true">
+  <p class="note" id="asofNote" hidden></p>
+
+  <section aria-labelledby="h-likviditet">
+    <h2 id="h-likviditet">Likviditet, de næste 13 uger</h2>
+    <div class="tiles" id="cashTiles"></div>
+    <ul class="insights" id="cashInsights"></ul>
+    <figure class="card">
+      <figcaption><strong>Forventet banksaldo ved ugens slutning</strong><span>Under nul-linjen betyder overtræk. Hold musen over en søjle for at se ugens poster.</span></figcaption>
+      <div class="chart" id="cashChart"></div>
+    </figure>
+    <details class="card">
+      <summary><strong>Uge for uge og antagelser</strong></summary>
+      <ul class="assumptions" id="cashAssumptions"></ul>
+      <div class="table-wrap"><table id="cashTable"></table></div>
+    </details>
+  </section>
+
+  <section aria-labelledby="h-kunder">
+    <h2 id="h-kunder">Kunder</h2>
+    <div class="tiles" id="custTiles"></div>
+    <ul class="insights" id="insights"></ul>
+    <div class="grid2">
+      <figure class="card">
+        <figcaption><strong>Udestående efter alder</strong><span>Ubetalte kundefakturaer, dage efter forfald</span></figcaption>
+        <div class="chart" id="agingChart"></div>
+      </figure>
+      <figure class="card">
+        <figcaption><strong>Dage betalt efter forfald</strong><span>Gennemsnit pr. måned, de seneste 12 måneder. Under 0 betyder før forfald.</span></figcaption>
+        <div class="chart" id="lateChart"></div>
+      </figure>
+    </div>
+    <div class="card">
+      <div class="card-head"><strong>Kunder</strong><span>Klik på en kolonne for at sortere. Seneste 12 måneder.</span></div>
+      <div class="table-wrap"><table id="custTable"></table></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-lev">
+    <h2 id="h-lev">Leverandører</h2>
+    <div class="tiles" id="supTiles"></div>
+    <div class="grid2">
+      <figure class="card">
+        <figcaption><strong>Andel af indkøb pr. leverandør</strong><span>Seneste 12 måneder</span></figcaption>
+        <div class="chart" id="supChart"></div>
+      </figure>
+      <figure class="card">
+        <figcaption><strong>Andel af indkøb pr. land</strong><span>Seneste 12 måneder</span></figcaption>
+        <div class="chart" id="countryChart"></div>
+      </figure>
+    </div>
+    <p class="note" id="matchNote"></p>
+  </section>
+</main>
+
+<div class="tip" id="tip" role="tooltip" hidden></div>
+<footer class="foot">Prototype · Data læses direkte fra e-conomic via deres REST API og bliver ikke gemt.</footer>
+<script type="module" src="app.js"></script>
+</body>
+</html>
