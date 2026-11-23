@@ -32,6 +32,10 @@ const expected = ["virksomhedsoverblik", "kunder_der_binder_penge", "kunde", "ub
   "fragtoverblik", "sammenlign_fragtfirmaer", "forsinkelsens_effekt", "fragt_statistik", "levering_hvor_og_hvornaar"];
 ok(expected.every((n) => names.includes(n)) && names.length === expected.length, `${names.length} værktøjer: ${names.join(", ")}`);
 ok(tools.every((t) => t.annotations?.readOnlyHint === true), "alle værktøjer er markeret som kun-læsning");
+// Claude's API only accepts tool and parameter names matching this pattern (no æ, ø, å).
+const API_NAME = /^[a-zA-Z0-9_.-]{1,64}$/;
+const badNames = (ts) => ts.flatMap((t) => [t.name, ...Object.keys(t.inputSchema?.properties || {})]).filter((n) => !API_NAME.test(n));
+ok(!badNames(tools).length, `dansk: værktøjs- og parameternavne er gyldige for Claudes API${badNames(tools).length ? ": " + badNames(tools).join(", ") : ""}`);
 
 // Every tool answers on the sample company without errors.
 for (const name of expected) {
@@ -44,6 +48,7 @@ let r = await ask("virksomhedsoverblik");
 ok(!!r.data.virksomhed && r.data.kilde, `overblik: ${r.data.virksomhed}`);
 r = await ask("salgsprognose");
 ok(r.data.prognose?.length === 6 && r.data.modeller.every((m, i, xs) => i === 0 || xs[i - 1].wape <= m.wape), `salgsprognose: ${r.data.valgt_model}, modeller sorteret efter fejl`);
+ok((await ask("salgsprognose", { maaneder: 3 })).data.prognose?.length === 3, "salgsprognose: parameteren maaneder virker");
 r = await ask("likviditetsrisiko", { minimum_saldo: 0 });
 ok(r.data.ugevis?.length === 13 && r.data.ugevis.every((u) => u.p10 <= u.median && u.median <= u.p90), "likviditetsrisiko: 13 uger, p10 ≤ median ≤ p90");
 ok((await ask("likviditetsrisiko", { minimum_saldo: -2000000 })).data.sandsynlighed_under_minimum < 0.01, "meget lavt minimum giver ~0 % risiko");
@@ -93,6 +98,7 @@ const enNames = ["company_overview", "customers_tying_up_cash", "customer", "unp
   "sales_forecast", "cash_risk", "anomalies", "inventory_overview", "reorder", "product", "freight_overview", "compare_carriers", "delay_effect",
   "freight_statistics", "delivery_where_and_when"];
 ok(enNames.every((n) => enTools.some((t) => t.name === n)) && enTools.length === 18, "engelsk: 18 værktøjer med engelske navne");
+ok(!badNames(enTools).length, `engelsk: værktøjs- og parameternavne er gyldige for Claudes API${badNames(enTools).length ? ": " + badNames(enTools).join(", ") : ""}`);
 ok(enTools.every((t) => !/[æøå]/i.test(t.description) && Object.keys(t.inputSchema.properties || {}).every((k) => !/[æøå]/.test(k))), "engelsk: beskrivelser og parametre uden danske bogstaver");
 // Every field name in every answer must be translated.
 const leftovers = new Set();
