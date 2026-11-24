@@ -2,6 +2,8 @@
 
 **[English](README.md)** · Dansk
 
+[![Cashfloow MCP server](https://mcprush.com/badge/cashfloow-mcp/card.svg)](https://mcprush.com/to/cashfloow-mcp?ref=badge)
+
 En gratis MCP-server, der giver Claude færdige analyser af en virksomheds likviditet, kunder, leverandører, salg og lager ud fra e-conomic. I stedet for rå regnskabsdata får Claude svar som *"Konferencecenteret er statistisk sikkert blevet 4 dage langsommere til at betale"* eller *"Bestil 40 kontorstole nu: 98 % risiko for udsolgt før næste levering"*.
 
 - **Gratis og åben:** MIT-licens. Ingen konto, ingen server, ingen betaling.
