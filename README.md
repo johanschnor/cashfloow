@@ -2,7 +2,7 @@
 
 English · **[Dansk](README.da.md)**
 
-[![Cashfloow MCP server](https://mcprush.com/badge/cashfloow-mcp/card.svg)](https://mcprush.com/to/cashfloow-mcp?ref=badge)
+<a href="https://mcprush.com/to/cashfloow-mcp?ref=badge"><img width="380" height="200" src="https://mcprush.com/badge/cashfloow-mcp/card.svg" alt="Cashfloow MCP server" /></a>
 
 A free, open-source [MCP](https://modelcontextprotocol.io) server that gives Claude finished analyses of a company's cash flow, customers, suppliers, sales and stock from the Danish accounting system [e-conomic](https://www.e-conomic.dk). Instead of raw bookkeeping data, Claude gets answers like *"Konferencecenteret has become 6 days slower to pay, and this is not chance"* or *"Order 40 office chairs now: 98% risk of selling out before the next delivery"*.
 

@@ -2,7 +2,7 @@
   "manifest_version": "0.3",
   "name": "cashfloow",
   "display_name": "Cashfloow",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "Finished analyses of cash flow, receivables, sales and stock from e-conomic, in English or Danish. Free, local and read-only.",
   "long_description": "Gives Claude finished analyses of a company's accounts in e-conomic instead of raw data: a 13-week cash forecast with Monte Carlo risk, which customers tie up cash and are becoming slower to pay, sales forecasts with tested error metrics, possible duplicate invoices and unusual amounts, and what to reorder with calibrated safety stock.\n\nRuns locally on your computer with your own e-conomic tokens and never writes to e-conomic. Without tokens everything works on a made-up sample company and on e-conomic's public demo account. Tools and answers in English or Danish. Not affiliated with e-conomic or Visma.\n\nGiver Claude færdige analyser af regnskabet i e-conomic: likviditetsprognose, kunder der binder penge, salgsprognoser, afvigelser og genbestilling. Svarer på dansk som standard.",
   "author": {
